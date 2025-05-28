@@ -74,9 +74,9 @@ const LaunchButton = ({ onClick, progress, isLaunching }: LaunchButtonProps) => 
             className="h-full bg-white rounded-full"
             initial={{ width: '0%' }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.3 }}
+            transition={{ duration: 5 }}
             style={{
-              animation: progress < 100 ? 'pulse 1.5s infinite' : 'none'
+              animation: progress < 100 ? 'pulse 5s infinite' : 'none'
             }}
           />
         </div>
@@ -86,7 +86,7 @@ const LaunchButton = ({ onClick, progress, isLaunching }: LaunchButtonProps) => 
       <div className="relative flex items-center justify-center gap-4 h-full">
         <Cpu className="w-8 h-8 text-white" />
         <span className="text-2xl font-bold text-white tracking-wider">
-          {isLaunching ? `LAUNCHING ${Math.round(progress)}%` : 'LAUNCH HPC CLUSTER'}
+          {isLaunching ? `LAUNCHING ${Math.round(progress)}%` : 'LAUNCH NOW'}
         </span>
       </div>
 
@@ -95,7 +95,7 @@ const LaunchButton = ({ onClick, progress, isLaunching }: LaunchButtonProps) => 
         className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
         style={{
           transform: 'translateX(-100%)',
-          animation: 'shimmer 2s infinite'
+          animation: 'shimmer 200s infinite'
         }}
       />
     </motion.button>

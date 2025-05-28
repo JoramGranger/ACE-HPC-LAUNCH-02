@@ -26,23 +26,10 @@ const ProgressSequence = ({ steps, currentStep, progress }: ProgressSequenceProp
                 }`}></div>
               )}
             </div>
-            <p className="text-white text-lg">{step}</p>
+            <p className="text-white text-2xl">{step}</p>
           </div>
         ))}
       </div>
-      
-      {/* Progress bar */}
-      {/* <div className="mt-8">
-        <div className="h-2 w-full bg-gray-700 rounded-full overflow-hidden">
-          <div 
-            className="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full relative"
-            style={{ width: `${progress}%` }}
-          >
-            <div className="absolute inset-0 bg-white opacity-30 animate-pulse"></div>
-          </div>
-        </div>
-        <div className="mt-2 text-right text-white font-mono">{Math.floor(progress)}%</div>
-      </div> */}
     </div>
   );
 };

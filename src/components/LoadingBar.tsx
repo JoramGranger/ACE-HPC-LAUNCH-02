@@ -16,7 +16,7 @@ const LoadingBar = ({ progress }: LoadingBarProps) => {
   };
 
   return (
-    <div className="relative w-[700px] h-6 bg-white/10 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(33,150,243,0.3)]">
+    <div className="relative w-[900px] h-6 bg-white/10 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(33,150,243,0.3)]">
       {/* Progress fill */}
       <motion.div
         className={`h-full absolute left-0 top-0 bg-gradient-to-r ${getGradientColors(progress)}`}
