@@ -2,20 +2,22 @@ import { Cpu } from 'lucide-react';
 
 const Logo = () => {
   return (
-    <div className="flex items-center justify-center mb-6">
-      <div className="flex items-center bg-black/40 backdrop-blur-sm px-6 py-3 rounded-xl border border-gray-800">
-        <div className="flex items-center mr-8">
+    <div className="flex items-center justify-center mb-12">
+      <div className="flex items-center bg-black/40 backdrop-blur-sm px-16 py-8 rounded-2xl border border-gray-800 shadow-lg">
+        {/* Logo Image */}
+        <div className="flex items-center mr-12">
           <img 
             src="/src/assets/ace-logo.png" 
             alt="ACE Logo" 
-            className="h-10 mr-2"
+            className="h-24 mr-4" // Larger logo
           />
         </div>
+
+        {/* Text and Icon */}
         <div className="flex items-center">
-          <Cpu className="h-8 w-8 text-red-600 mr-2" />
+          <Cpu className="h-16 w-16 text-red-600 mr-4" /> {/* Bigger icon */}
           <div>
-            <h1 className="text-xl font-bold text-white">ACE HPC CLUSTER</h1>
-            <p className="text-xs text-gray-400">HIGH PERFORMANCE COMPUTING SYSTEM</p>
+            <h1 className="text-5xl font-bold text-white tracking-wide">ACE HPC CLUSTER</h1>
           </div>
         </div>
       </div>

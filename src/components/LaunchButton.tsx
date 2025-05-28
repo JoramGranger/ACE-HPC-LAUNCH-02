@@ -47,55 +47,64 @@ const LaunchButton = ({ onClick, progress, isLaunching }: LaunchButtonProps) => 
     <motion.button
       onClick={onClick}
       disabled={isLaunching}
-      className="relative w-[400px] h-[80px] rounded-[40px] overflow-hidden transform-gpu
-                 transition-all duration-300 ease-in-out focus:outline-none"
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
+      className="relative w-[600px] h-[120px] rounded-[60px] overflow-hidden border-2 border-white/30 shadow-[0_10px_30px_rgba(0,0,0,0.6)] bg-black/40"
+      whileHover={{
+        scale: 1.05,
+        rotateX: 5,
+        rotateY: -5,
+        boxShadow: "0 25px 50px rgba(0,0,0,0.7)"
+      }}
+      whileTap={{
+        scale: 0.96,
+        rotateX: 0,
+        rotateY: 0,
+        boxShadow: "0 5px 15px rgba(0,0,0,0.5)"
+      }}
+      transition={{
+        type: "spring",
+        stiffness: 260,
+        damping: 20
+      }}
       style={{
-        willChange: 'transform'
+        transformStyle: "preserve-3d",
+        perspective: "1000px"
       }}
     >
-      {/* Gradient Background */}
-      <div 
-        className="absolute inset-0 bg-gradient-to-r from-red-600 via-black to-white"
-        style={{
-          backgroundSize: '200% 200%',
-          animation: 'gradientFlow 3s infinite ease-in-out'
-        }}
-      />
+      {/* 3D Layered Background */}
+      <div className="absolute inset-0 bg-gradient-to-r from-red-700 via-black to-white animate-gradient-flow" />
 
-      {/* Glass Overlay */}
-      <div className="absolute inset-0 bg-white/10 backdrop-blur-sm" />
+      {/* Inner Shine Layer */}
+      <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-[60px] z-10" />
+
+      {/* Glossy Highlight */}
+      <div className="absolute top-0 left-0 right-0 h-1/2 bg-white/10 rounded-t-[60px] pointer-events-none z-20" />
 
       {/* Progress Bar */}
       {isLaunching && (
-        <div className="absolute bottom-0 left-[10%] w-[80%] h-1 bg-black/20 rounded-full overflow-hidden">
+        <div className="absolute bottom-3 left-[10%] w-[80%] h-2 bg-black/40 rounded-full overflow-hidden z-30">
           <motion.div
             className="h-full bg-white rounded-full"
             initial={{ width: '0%' }}
             animate={{ width: `${progress}%` }}
-            transition={{ duration: 5 }}
-            style={{
-              animation: progress < 100 ? 'pulse 5s infinite' : 'none'
-            }}
+            transition={{ duration: 1.2 }}
           />
         </div>
       )}
 
       {/* Button Content */}
-      <div className="relative flex items-center justify-center gap-4 h-full">
-        <Cpu className="w-8 h-8 text-white" />
-        <span className="text-2xl font-bold text-white tracking-wider">
+      <div className="relative flex items-center justify-center gap-6 h-full z-30">
+        {/* <Cpu className="w-14 h-14 text-white drop-shadow-2xl" /> */}
+        <span className="text-4xl font-extrabold text-white tracking-widest drop-shadow-xl">
           {isLaunching ? `LAUNCHING ${Math.round(progress)}%` : 'LAUNCH NOW'}
         </span>
       </div>
 
-      {/* Shimmer Effect */}
+      {/* Reflective Shimmer Layer */}
       <div 
-        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent"
+        className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
         style={{
           transform: 'translateX(-100%)',
-          animation: 'shimmer 200s infinite'
+          animation: 'shimmer 4s infinite'
         }}
       />
     </motion.button>
