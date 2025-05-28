@@ -24,7 +24,7 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
   const [status, setStatus] = useState<'offline' | 'initializing' | 'online'>('offline');
   const [showDetails, setShowDetails] = useState(false);
   const [metrics, setMetrics] = useState<NodeMetrics>({
-    cores: 64,
+    cores: 68,
     memory: 96,
     temperature: 45.5,
     loadAverage: 0.45,

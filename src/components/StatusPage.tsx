@@ -87,10 +87,10 @@ const StatusPage = () => {
                   color="green" 
                 />
                 <CircularProgressMeter 
-                  title="Storage Capacity" 
+                  title="Online Storage" 
                   value={storageCapacity} 
-                  maxValue={1.5} 
-                  unit="PB"
+                  maxValue={500000} 
+                  unit="GB"
                   color="purple"
                   isStatic 
                 />
