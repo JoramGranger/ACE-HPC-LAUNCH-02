@@ -16,26 +16,23 @@ const LoadingBar = ({ progress }: LoadingBarProps) => {
   };
 
   return (
-    <div className="w-[500px] h-3 bg-white/10 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(33,150,243,0.3)]">
+    <div className="relative w-[700px] h-6 bg-white/10 rounded-xl overflow-hidden shadow-[0_0_15px_rgba(33,150,243,0.3)]">
+      {/* Progress fill */}
       <motion.div
-        className={`h-full w-full relative transform-gpu bg-gradient-to-r ${getGradientColors(progress)}`}
+        className={`h-full absolute left-0 top-0 bg-gradient-to-r ${getGradientColors(progress)}`}
         style={{
-          transform: `translateX(${progress - 100}%)`
+          width: `${progress}%`
         }}
         transition={{
           duration: 0.5,
           ease: "easeInOut"
         }}
-      >
-        <div 
-          className="absolute inset-0 animate-shimmer"
-          style={{
-            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
-            transform: 'translateX(-100%)',
-            animation: 'shimmer 2s infinite'
-          }}
-        />
-      </motion.div>
+      />
+
+      {/* Centered static percentage text */}
+      <div className="absolute inset-0 flex items-center justify-center text-white font-semibold text-sm">
+        {Math.floor(progress)}%
+      </div>
     </div>
   );
 };

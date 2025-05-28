@@ -32,7 +32,7 @@ const ProgressSequence = ({ steps, currentStep, progress }: ProgressSequenceProp
       </div>
       
       {/* Progress bar */}
-      <div className="mt-8">
+      {/* <div className="mt-8">
         <div className="h-2 w-full bg-gray-700 rounded-full overflow-hidden">
           <div 
             className="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full relative"
@@ -42,7 +42,7 @@ const ProgressSequence = ({ steps, currentStep, progress }: ProgressSequenceProp
           </div>
         </div>
         <div className="mt-2 text-right text-white font-mono">{Math.floor(progress)}%</div>
-      </div>
+      </div> */}
     </div>
   );
 };

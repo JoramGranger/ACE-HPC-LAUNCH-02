@@ -22,7 +22,7 @@ const LaunchPage = ({ onComplete }: LaunchPageProps) => {
     "Preparing Systems...",
     "Checking Services...",
     "Verifying Network Connectivity...",
-    "Mounting Storage Systems...",
+    "Checking Storage Mount...",
     "Confirming Services Status...",
     "Initiating Cluster Launch..."
   ];

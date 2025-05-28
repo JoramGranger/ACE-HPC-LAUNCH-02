@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import LogoPanel from './LogoPanel';
 
 const BottomPanel = () => {
   const [currentPanel, setCurrentPanel] = useState(0);
