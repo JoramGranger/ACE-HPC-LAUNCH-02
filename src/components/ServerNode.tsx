@@ -15,6 +15,11 @@ interface NodeMetrics {
   loadAverage: number;
 }
 
+const generateRandomMetrics = (): Pick<NodeMetrics, 'temperature' | 'loadAverage'> => ({
+  temperature: parseFloat((35 + Math.random() * 20).toFixed(1)), // 35.0°C – 55.0°C
+  loadAverage: parseFloat((Math.random() * 2).toFixed(2)),        // 0.00 – 2.00
+});
+
 const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
   const [status, setStatus] = useState<'offline' | 'initializing' | 'online'>('offline');
   const [showDetails, setShowDetails] = useState(false);
@@ -28,6 +33,7 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
   const nodeRef = useRef<HTMLDivElement>(null);
   const [tooltipPos, setTooltipPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
 
+  // Update node status
   useEffect(() => {
     if (!isActive) {
       setStatus('offline');
@@ -35,7 +41,6 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
     }
 
     setStatus('initializing');
-
     const timer = setTimeout(() => {
       setStatus('online');
     }, 1000 + Math.random() * 2000);
@@ -43,6 +48,7 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
     return () => clearTimeout(timer);
   }, [isActive]);
 
+  // Update tooltip position on hover
   useEffect(() => {
     if (showDetails && nodeRef.current) {
       const rect = nodeRef.current.getBoundingClientRect();
@@ -52,6 +58,21 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
       });
     }
   }, [showDetails]);
+
+  // Periodically randomize temperature and loadAverage while online
+  useEffect(() => {
+    if (status !== 'online') return;
+
+    const interval = setInterval(() => {
+      const randomMetrics = generateRandomMetrics();
+      setMetrics((prev) => ({
+        ...prev,
+        ...randomMetrics,
+      }));
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [status]);
 
   const statusColors = {
     offline: 'bg-gray-700',
@@ -88,14 +109,11 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
         role="button"
         aria-label={`Server Node ${String(nodeId).padStart(2, '0')} - ${getStatusLabel()}`}
       >
-        {/* Skeleton Loader */}
         {status === 'initializing' ? (
           <div className="w-6 h-6 mb-2 rounded bg-amber-300/30 animate-pulse"></div>
         ) : (
           <Server
-            className={`w-6 h-6 mb-1 ${
-              status === 'offline' ? 'text-gray-500' : 'text-white'
-            }`}
+            className={`w-6 h-6 mb-1 ${status === 'offline' ? 'text-gray-500' : 'text-white'}`}
           />
         )}
 
@@ -114,7 +132,6 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
         </div>
       </motion.div>
 
-      {/* Tooltip rendered with React Portal */}
       {tooltipRoot &&
         ReactDOM.createPortal(
           <AnimatePresence>
