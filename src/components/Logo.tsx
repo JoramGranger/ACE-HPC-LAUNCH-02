@@ -1,4 +1,5 @@
 import { Cpu } from 'lucide-react';
+import aceLogo from '../assets/ace-logo.png';
 
 const Logo = () => {
   return (
@@ -7,7 +8,7 @@ const Logo = () => {
         {/* Logo Image */}
         <div className="flex items-center mr-12">
           <img 
-            src="/src/assets/ace-logo.png" 
+            src={aceLogo}
             alt="ACE Logo" 
             className="h-24 mr-4" // Larger logo
           />
