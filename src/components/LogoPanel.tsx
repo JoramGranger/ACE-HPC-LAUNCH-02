@@ -20,7 +20,7 @@ const LogoPanel = ({ logos, currentPanel, panelIndex, label }: LogoPanelProps) =
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: -100 }}
           transition={{ duration: 1, ease: "easeInOut" }}
-          className="flex items-center gap-6 h-full whitespace-nowrap overflow-hidden"
+          className="flex items-center gap-6 h-full whitespace-nowrap overflow-hidden bg-gray-200"
           style={{ width: "100%" }}
         >
           {/* Label on the left */}

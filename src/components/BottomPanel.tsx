@@ -78,8 +78,8 @@ const BottomPanel = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 h-20 bg-white border-t border-gray-300 z-50 overflow-hidden">
-      <div className="max-w-7xl mx-auto h-full px-6 flex items-center overflow-hidden">
+    <div className="fixed bottom-0 left-0 right-0 h-20 bg-gray-200 border-t border-gray-300 z-50 overflow-hidden">
+      <div className="bg-gray-200 max-w-7xl mx-auto h-full px-6 flex items-center overflow-hidden">
         {panels.map((panel, index) => (
           <LogoPanel
             key={panel.title}
