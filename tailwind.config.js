@@ -22,6 +22,13 @@ export default {
       animation: {
         'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
       },
+      boxShadow: {
+        'glow-green': '0 0 10px #22c55e, 0 0 20px #22c55e',
+        'glow-amber': '0 0 10px #f59e0b, 0 0 20px #f59e0b',
+      },
+      zIndex: {
+        '9999': '9999',
+      },
     },
   },
   plugins: [],

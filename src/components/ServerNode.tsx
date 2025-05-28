@@ -47,7 +47,7 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
     if (showDetails && nodeRef.current) {
       const rect = nodeRef.current.getBoundingClientRect();
       setTooltipPos({
-        top: rect.top - 10, // 10px above the node
+        top: rect.top - 10,
         left: rect.left + rect.width / 2,
       });
     }
@@ -58,8 +58,6 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
     initializing: 'bg-amber-500',
     online: 'bg-green-500',
   };
-
-  const containerOpacity = status === 'offline' ? 'opacity-40' : 'opacity-100';
 
   const getStatusLabel = () => {
     switch (status) {
@@ -72,25 +70,39 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
     }
   };
 
-  // Get tooltip root element for portal
   const tooltipRoot = document.getElementById('tooltip-root');
 
   return (
     <>
-      <div
+      <motion.div
         ref={nodeRef}
-        className={`relative overflow-visible bg-gray-800/80 backdrop-blur-sm border border-gray-700 rounded-lg p-2 
-            transition-all duration-300 hover:bg-gray-700/80 hover:scale-105 
-            ${containerOpacity} flex flex-col items-center justify-center`}
+        className={`
+          relative overflow-visible rounded-lg p-2 flex flex-col items-center justify-center
+          border transition-all duration-300 hover:scale-105 hover:bg-gray-700/80
+          ${status === 'offline' ? 'border-gray-700 bg-gray-800/60 opacity-40' : ''}
+          ${status === 'initializing' ? 'border-amber-500 bg-gray-800/80' : ''}
+          ${status === 'online' ? 'border-green-600 bg-gradient-to-br from-gray-800 to-gray-700 animate-pulse-slow' : ''}
+        `}
         onMouseEnter={() => setShowDetails(true)}
         onMouseLeave={() => setShowDetails(false)}
         role="button"
         aria-label={`Server Node ${String(nodeId).padStart(2, '0')} - ${getStatusLabel()}`}
       >
-        <Server
-          className={`w-6 h-6 mb-1 ${status === 'offline' ? 'text-gray-500' : 'text-white'}`}
-        />
-        <div className="text-xs font-mono text-gray-300 mb-1">kla-ac-cpu-{String(nodeId).padStart(2, '0')}</div>
+        {/* Skeleton Loader */}
+        {status === 'initializing' ? (
+          <div className="w-6 h-6 mb-2 rounded bg-amber-300/30 animate-pulse"></div>
+        ) : (
+          <Server
+            className={`w-6 h-6 mb-1 ${
+              status === 'offline' ? 'text-gray-500' : 'text-white'
+            }`}
+          />
+        )}
+
+        <div className="text-xs font-mono text-gray-300 mb-1">
+          kla-ac-cpu-{String(nodeId).padStart(2, '0')}
+        </div>
+
         <div className="flex items-center justify-center gap-1 mt-1">
           <div
             className={`w-2 h-2 rounded-full ${statusColors[status]} shadow-lg ${
@@ -98,9 +110,9 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
             }`}
             role="status"
             aria-label={getStatusLabel()}
-          ></div>
+          />
         </div>
-      </div>
+      </motion.div>
 
       {/* Tooltip rendered with React Portal */}
       {tooltipRoot &&
@@ -118,36 +130,35 @@ const ServerNode = ({ nodeId, isActive }: ServerNodeProps) => {
                   left: tooltipPos.left,
                   transform: 'translateX(-50%)',
                   zIndex: 9999,
-                  width: 256, // 64 * 4 (tailwind w-64)
+                  width: 256,
                 }}
                 className="p-4 bg-gray-900/95 backdrop-blur-md rounded-lg shadow-xl border border-gray-700"
               >
                 <h3 className="text-white font-semibold mb-2">Node Details</h3>
-                <div className="space-y-2">
-                  <div className="flex justify-between items-center">
+                <div className="space-y-2 text-sm">
+                  <div className="flex justify-between">
                     <span className="text-gray-400">Status</span>
                     <span className="text-white capitalize">{status}</span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between">
                     <span className="text-gray-400">Cores</span>
                     <span className="text-white">{metrics.cores} vCPUs</span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between">
                     <span className="text-gray-400">Memory</span>
                     <span className="text-white">{metrics.memory} GB</span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between">
                     <span className="text-gray-400">Temperature</span>
                     <span className="text-white">{metrics.temperature}°C</span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between">
                     <span className="text-gray-400">Load Average</span>
                     <span className="text-white">{metrics.loadAverage.toFixed(2)}</span>
                   </div>
 
-                  {/* Load indicator */}
                   <div className="mt-3">
-                    <div className="flex justify-between items-center mb-1">
+                    <div className="flex justify-between mb-1">
                       <span className="text-gray-400 text-sm">System Load</span>
                       <span className="text-white text-sm">
                         {(metrics.loadAverage / metrics.cores * 100).toFixed(1)}%

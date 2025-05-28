@@ -5,6 +5,7 @@ interface ServerNodesGridProps {
   nodesOnline: number;
 }
 
+// Fisher-Yates shuffle
 function shuffleArray<T>(array: T[]): T[] {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -16,32 +17,33 @@ function shuffleArray<T>(array: T[]): T[] {
 
 const ServerNodesGrid = ({ nodesOnline }: ServerNodesGridProps) => {
   const [visibleNodes, setVisibleNodes] = useState<number[]>([]);
-  const shuffledNodes = useRef<number[]>([]);
+  const shuffledOrderRef = useRef<number[]>([]);
+  const currentIndexRef = useRef<number>(0);
 
-  // Generate all 56 node IDs (1-56)
   const allNodes = Array.from({ length: 56 }, (_, i) => i + 1);
+
+  useEffect(() => {
+    shuffledOrderRef.current = shuffleArray(allNodes);
+    currentIndexRef.current = 0;
+  }, []);
 
   useEffect(() => {
     if (nodesOnline === 0) {
       setVisibleNodes([]);
+      currentIndexRef.current = 0;
       return;
     }
 
-    // On first run or when nodesOnline changes, shuffle node order
-    shuffledNodes.current = shuffleArray(allNodes);
-
-    let currentIndex = 0;
-
     const interval = setInterval(() => {
-      setVisibleNodes((prev) => {
-        const nextNodeId = shuffledNodes.current[currentIndex];
-        currentIndex++;
-        if (currentIndex > nodesOnline || currentIndex > allNodes.length) {
-          clearInterval(interval);
-          return prev;
-        }
-        return [...prev, nextNodeId];
-      });
+      if (currentIndexRef.current >= nodesOnline || currentIndexRef.current >= allNodes.length) {
+        clearInterval(interval);
+        return;
+      }
+
+      const nextNode = shuffledOrderRef.current[currentIndexRef.current];
+      currentIndexRef.current++;
+
+      setVisibleNodes((prev) => [...prev, nextNode]);
     }, 50);
 
     return () => clearInterval(interval);
@@ -50,7 +52,11 @@ const ServerNodesGrid = ({ nodesOnline }: ServerNodesGridProps) => {
   return (
     <div className="grid grid-cols-4 sm:grid-cols-7 md:grid-cols-14 gap-2 overflow-hidden h-[calc(100%-2rem)]">
       {allNodes.map((nodeId) => (
-        <ServerNode key={nodeId} nodeId={nodeId} isActive={visibleNodes.includes(nodeId)} />
+        <ServerNode
+          key={nodeId}
+          nodeId={nodeId}
+          isActive={visibleNodes.includes(nodeId)}
+        />
       ))}
     </div>
   );
