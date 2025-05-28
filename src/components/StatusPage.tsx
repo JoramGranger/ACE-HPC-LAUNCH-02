@@ -20,7 +20,7 @@ const StatusPage = () => {
   useEffect(() => {
     const animationDuration = 180000;
     const totalNodes = 56;
-    const coresPerNode = 64;
+    const coresPerNode = 68;
     const memoryPerNode = 96;
     const totalCoresMax = totalNodes * coresPerNode;
     const memoryMax = totalNodes * memoryPerNode;
