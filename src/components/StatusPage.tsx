@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppContext } from '../context/AppContext';
 import CircularProgressMeter from './CircularProgressMeter';
 import ServerNodesGrid from './ServerNodesGrid';
@@ -16,11 +16,14 @@ const StatusPage = () => {
     setMemoryAvailable
   } = useAppContext();
 
+  const [showBanner, setShowBanner] = useState(false);
+  const [bannerVisible, setBannerVisible] = useState(false);
+
   // Animation timing
   useEffect(() => {
-    const animationDuration = 180000;
+    const animationDuration = 1000;
     const totalNodes = 56;
-    const coresPerNode = 68;
+    const coresPerNode = 272;
     const memoryPerNode = 96;
     const totalCoresMax = totalNodes * coresPerNode;
     const memoryMax = totalNodes * memoryPerNode;
@@ -51,9 +54,60 @@ const StatusPage = () => {
     return () => clearInterval(timer);
   }, [setNodesOnline, setTotalCores, setMemoryAvailable]);
 
+  // Show banner when all nodes are online
+  useEffect(() => {
+    if (nodesOnline === 56 && !showBanner) {
+      setShowBanner(true);
+      // Delay the visibility for smooth animation
+      setTimeout(() => setBannerVisible(true), 100);
+      
+      // Auto-hide banner after 5 seconds
+      setTimeout(() => {
+        setBannerVisible(false);
+        setTimeout(() => setShowBanner(false), 500); // Wait for fade out
+      }, 5000);
+    }
+  }, [nodesOnline, showBanner]);
+
   return (
     <div className="relative w-full h-full flex flex-col">
       <Particles />
+      
+      {/* HPC Live Banner */}
+      {showBanner && (
+        <div className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-500 ${
+          bannerVisible ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
+        }`}>
+          <div className="bg-gradient-to-r from-green-500/90 to-emerald-600/90 backdrop-blur-md rounded-xl px-8 py-4 border border-green-400/50 shadow-2xl">
+            <div className="flex items-center gap-3">
+              {/* Pulsing indicator */}
+              <div className="relative">
+                <div className="w-4 h-4 rounded-full bg-green-300 animate-pulse"></div>
+                <div className="absolute inset-0 w-4 h-4 rounded-full bg-green-300 animate-ping opacity-75"></div>
+              </div>
+              
+              <div className="flex flex-col">
+                <h3 className="text-white font-bold text-lg tracking-wide">
+                  HPC CLUSTER LIVE
+                </h3>
+                <p className="text-green-100 text-sm">
+                  All 56 nodes operational • {totalCores.toLocaleString()} cores active
+                </p>
+              </div>
+              
+              {/* Success icon */}
+              <div className="ml-4">
+                <svg className="w-6 h-6 text-green-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </div>
+            </div>
+            
+            {/* Animated border glow */}
+            <div className="absolute inset-0 rounded-xl border border-green-400/30 animate-pulse"></div>
+          </div>
+        </div>
+      )}
       
       <div className="absolute inset-0 z-10 flex flex-col p-6">
         <div className="mb-4">
@@ -73,9 +127,9 @@ const StatusPage = () => {
                   color="red" 
                 />
                 <CircularProgressMeter 
-                  title="Total Cores Active" 
+                  title="Total CPUs Active" 
                   value={totalCores} 
-                  maxValue={3584} 
+                  maxValue={15232} 
                   unit=""
                   color="blue" 
                 />

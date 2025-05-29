@@ -30,7 +30,7 @@ const LaunchPage = ({ onComplete }: LaunchPageProps) => {
   const currentStep = Math.min(Math.floor(progress / (100 / steps.length)), steps.length - 1);
 
   const triggerFireworks = useCallback(() => {
-    const duration = 15 * 1000;
+    const duration = 10;
     const animationEnd = Date.now() + duration;
     const colors = ['#2196F3', '#4CAF50', '#FFC107', '#9C27B0', '#FF5722', '#3F51B5'];
     let count = 0;

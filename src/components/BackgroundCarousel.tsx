@@ -4,13 +4,21 @@ import { Autoplay, EffectFade, EffectCreative } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/effect-creative';
+import bg01 from '../assets/bg01.jpg';
+import bg02 from '../assets/bg02.png';
+import bg03 from '../assets/bg03.png';
+import bg04 from '../assets/bg04.jpg';
 
 const BackgroundCarousel = () => {
   const slides = [
-    'https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg',
-    'https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg',
-    'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg',
-    'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg'
+    /* 'https://images.pexels.com/photos/373543/pexels-photo-373543.jpeg', */
+    bg01,
+    bg02,
+    bg03,
+    bg04,
+   /*  'https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg',
+    'https://images.pexels.com/photos/1181354/pexels-photo-1181354.jpeg', */
+    /* 'https://images.pexels.com/photos/325229/pexels-photo-325229.jpeg' */
   ];
 
   useEffect(() => {
